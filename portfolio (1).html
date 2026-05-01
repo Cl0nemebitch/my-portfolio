@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lakshay — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Syne:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0b0b0b;
+      --surface: #141414;
+      --border: rgba(255,255,255,0.08);
+      --accent: #d4a853;
+      --text: #ede9e0;
+      --muted: rgba(237,233,224,0.42);
+      --font-display: 'Fraunces', serif;
+      --font-ui: 'Syne', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-ui);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 4rem;
+      background: rgba(11,11,11,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.15rem; font-weight: 300;
+      color: var(--text); text-decoration: none; letter-spacing: 0.02em;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ─── LAYOUT ─── */
+    section { max-width: 1100px; margin: 0 auto; padding: 6rem 4rem; }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .divider { border: none; border-top: 1px solid var(--border); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; padding-top: 8rem; position: relative;
+    }
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(4.5rem, 11vw, 9rem);
+      font-weight: 300; line-height: 1.0;
+      letter-spacing: -0.025em; margin-bottom: 1.5rem;
+    }
+    .hero-name em { font-style: italic; color: var(--accent); }
+    .hero-sub {
+      font-size: 0.97rem; color: var(--muted);
+      max-width: 440px; line-height: 1.9; margin-bottom: 2.5rem;
+    }
+    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: var(--font-mono); font-size: 0.75rem;
+      letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+      padding: 0.72rem 1.4rem;
+      border: 1px solid var(--border);
+      color: var(--text); transition: all 0.22s;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-accent {
+      background: var(--accent); color: #0b0b0b;
+      border-color: var(--accent); font-weight: 600;
+    }
+    .btn-accent:hover { background: transparent; color: var(--accent); }
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 4rem;
+      font-family: var(--font-mono); font-size: 0.68rem;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--muted); display: flex; align-items: center; gap: 0.75rem;
+      transition: opacity 0.4s;
+    }
+    .scroll-hint::before {
+      content: ''; display: block; width: 40px; height: 1px; background: var(--muted);
+    }
+
+    /* ─── ABOUT ─── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: start;
+    }
+    .about-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 300; line-height: 1.1; letter-spacing: -0.015em;
+    }
+    .about-heading em { font-style: italic; color: var(--accent); }
+    .about-body { font-size: 0.93rem; color: var(--muted); line-height: 1.9; }
+    .about-body p + p { margin-top: 1rem; }
+
+    /* ─── PROJECTS ─── */
+    #projects { padding-top: 0; }
+    .projects-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 300; letter-spacing: -0.015em; margin-bottom: 3rem;
+    }
+    .projects-heading em { font-style: italic; color: var(--accent); }
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      border: 1px solid var(--border);
+      gap: 1px; background: var(--border);
+    }
+    .project-card {
+      background: var(--bg); padding: 2.25rem 2rem;
+      position: relative; overflow: hidden;
+      transition: background 0.28s;
+    }
+    .project-card:hover { background: var(--surface); }
+    .project-card:hover .proj-arrow { opacity: 1; transform: translate(0, 0); }
+    .project-card.wide { grid-column: 1 / -1; }
+    .proj-num {
+      font-family: var(--font-mono); font-size: 0.68rem;
+      color: var(--accent); letter-spacing: 0.16em; margin-bottom: 1.2rem;
+    }
+    .proj-arrow {
+      position: absolute; top: 2rem; right: 2rem;
+      color: var(--accent); opacity: 0;
+      transform: translate(-5px, 5px); transition: all 0.25s;
+      font-size: 1.1rem;
+    }
+    .proj-name {
+      font-family: var(--font-display); font-size: 1.35rem; font-weight: 400;
+      line-height: 1.25; margin-bottom: 0.75rem;
+    }
+    .proj-desc {
+      font-size: 0.84rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.25rem;
+    }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .tag {
+      font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.09em;
+      padding: 0.22rem 0.6rem;
+      border: 1px solid var(--border); color: var(--muted); text-transform: uppercase;
+    }
+
+    /* ─── SKILLS ─── */
+    #skills { padding-top: 6rem; border-top: 1px solid var(--border); }
+    .skills-top {
+      display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; margin-bottom: 3.5rem;
+    }
+    .skills-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 300; line-height: 1.1;
+    }
+    .skills-heading em { font-style: italic; color: var(--accent); }
+    .skills-blurb {
+      font-size: 0.93rem; color: var(--muted); line-height: 1.9;
+      padding-top: 1.75rem;
+    }
+    .skills-groups {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem;
+      border-top: 1px solid var(--border); padding-top: 2.5rem;
+    }
+    .sg-title {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.25rem;
+    }
+    .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+    .skill-list li {
+      font-size: 0.88rem; color: var(--muted);
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .skill-list li::before {
+      content: ''; display: block; width: 5px; height: 5px;
+      background: var(--accent); flex-shrink: 0; opacity: 0.65;
+    }
+
+    /* ─── EXPERIENCE ─── */
+    #experience { padding-top: 6rem; border-top: 1px solid var(--border); }
+    .exp-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 300; line-height: 1.1;
+      margin-bottom: 3.5rem;
+    }
+    .exp-heading em { font-style: italic; color: var(--accent); }
+    .timeline { display: flex; flex-direction: column; }
+    .tl-item {
+      display: grid; grid-template-columns: 190px 1fr; gap: 2.5rem;
+      padding: 2rem 0; border-bottom: 1px solid var(--border);
+    }
+    .tl-item:first-child { border-top: 1px solid var(--border); }
+    .tl-date {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.35rem;
+    }
+    .tl-org { font-size: 0.8rem; color: var(--muted); }
+    .tl-role {
+      font-family: var(--font-display); font-size: 1.18rem; font-weight: 400;
+      margin-bottom: 0.6rem;
+    }
+    .tl-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.8; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      max-width: 1100px; margin: 0 auto;
+      padding: 2.5rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-name {
+      font-family: var(--font-display); font-size: 1rem;
+      font-weight: 300; color: var(--muted);
+    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ─── FADE IN ─── */
+    .fi { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .fi.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 780px) {
+      nav { padding: 1.1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid, .skills-top, .skills-groups { grid-template-columns: 1fr; gap: 2rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.wide { grid-column: auto; }
+      .tl-item { grid-template-columns: 1fr; gap: 0.4rem; }
+      footer { flex-direction: column; gap: 1.5rem; padding: 2rem 1.5rem; }
+      .scroll-hint { left: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Lakshay</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="section-label">Portfolio — 2026</div>
+  <h1 class="hero-name">Lak<em>shay</em></h1>
+  <p class="hero-sub">
+    Computer Science student & developer. I build systems, solve algorithmic challenges, and turn ideas into working products.
+  </p>
+  <div class="hero-links">
+    <a href="#projects" class="btn btn-accent">View Projects</a>
+    <a href="https://www.linkedin.com/in/lakshay---sharma/" target="_blank" class="btn">LinkedIn ↗</a>
+    <a href="https://github.com/Cl0nemebitch" target="_blank" class="btn">GitHub ↗</a>
+  </div>
+  <div class="scroll-hint" id="scroll-hint">Scroll to explore</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid fi">
+    <div>
+      <div class="section-label">Who I am</div>
+      <h2 class="about-heading">Builder.<br>Thinker.<br><em>Problem</em><br>solver.</h2>
+    </div>
+    <div class="about-body">
+      <p>
+        I'm a Computer Science student with a knack for turning complex problems into elegant solutions. Whether it's architecting full-stack web applications, diving deep into graph algorithms, or applying machine learning to real-world challenges — I enjoy the craft of building things that actually work.
+      </p>
+      <p>
+        I've led technical projects end-to-end: from schema design and backend APIs all the way to deployment. I'm equally at home debugging a PostgreSQL schema as I am reasoning about pathfinding heuristics or training a vision model.
+      </p>
+      <p>
+        Based in Meerut, India. Open to collaborations, internships, and interesting conversations.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label fi">Selected work</div>
+  <h2 class="projects-heading fi">What I've <em>built</em></h2>
+  <div class="projects-grid">
+
+    <div class="project-card fi">
+      <div class="proj-num">01</div>
+      <div class="proj-arrow">↗</div>
+      <h3 class="proj-name">University Roll No. Management System</h3>
+      <p class="proj-desc">
+        A comprehensive administrative system for student enrollment and roll number allocation. Streamlines university record-keeping with role-based access controls and data integrity validation.
+      </p>
+      <div class="proj-tags">
+        <span class="tag">Full-Stack</span>
+        <span class="tag">Database</span>
+        <span class="tag">Admin Panel</span>
+      </div>
+    </div>
+
+    <div class="project-card fi">
+      <div class="proj-num">02</div>
+      <div class="proj-arrow">↗</div>
+      <h3 class="proj-name">Social Network Graphs</h3>
+      <p class="proj-desc">
+        Graph-based analysis and visualisation of social network structures. Implements algorithms for community detection, shortest paths, and influence mapping across interconnected nodes.
+      </p>
+      <div class="proj-tags">
+        <span class="tag">Graph Theory</span>
+        <span class="tag">Algorithms</span>
+        <span class="tag">Visualisation</span>
+      </div>
+    </div>
+
+    <div class="project-card fi">
+      <div class="proj-num">03</div>
+      <div class="proj-arrow">↗</div>
+      <h3 class="proj-name">Capture the Flag</h3>
+      <p class="proj-desc">
+        A cybersecurity CTF platform with multi-category challenges spanning cryptography, reverse engineering, and web exploitation — designed to test and sharpen offensive security skills.
+      </p>
+      <div class="proj-tags">
+        <span class="tag">Cybersecurity</span>
+        <span class="tag">CTF</span>
+        <span class="tag">Web</span>
+        <span class="tag">Cryptography</span>
+      </div>
+    </div>
+
+    <div class="project-card fi">
+      <div class="proj-num">04</div>
+      <div class="proj-arrow">↗</div>
+      <h3 class="proj-name">Battleground Route Optimisation</h3>
+      <p class="proj-desc">
+        Applies pathfinding and route optimisation algorithms to tactical battleground scenarios. Explores optimal movement strategies using Dijkstra, A*, and heuristic-based approaches on dynamic maps.
+      </p>
+      <div class="proj-tags">
+        <span class="tag">Algorithms</span>
+        <span class="tag">Pathfinding</span>
+        <span class="tag">Optimisation</span>
+        <span class="tag">C++</span>
+      </div>
+    </div>
+
+    <div class="project-card wide fi">
+      <div class="proj-num">05</div>
+      <div class="proj-arrow">↗</div>
+      <h3 class="proj-name">Camouflaged Object Detection System</h3>
+      <p class="proj-desc">
+        A computer vision system that detects and segments objects blending into their surroundings. Leverages deep learning architectures to overcome the challenge of low visual contrast and natural camouflage — where conventional detectors fail.
+      </p>
+      <div class="proj-tags">
+        <span class="tag">Machine Learning</span>
+        <span class="tag">Computer Vision</span>
+        <span class="tag">Deep Learning</span>
+        <span class="tag">Python</span>
+        <span class="tag">OpenCV</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="skills-top fi">
+    <div>
+      <div class="section-label">Capabilities</div>
+      <h2 class="skills-heading">What I<br>work<br><em>with</em></h2>
+    </div>
+    <p class="skills-blurb">
+      A versatile toolkit built through coursework, personal projects, and hands-on building. Comfortable across the full stack — from database design to deployment — and always adding new tools as problems demand them.
+    </p>
+  </div>
+  <div class="skills-groups fi">
+    <div>
+      <div class="sg-title">Languages</div>
+      <ul class="skill-list">
+        <li>Python</li>
+        <li>JavaScript</li>
+        <li>C / C++</li>
+        <li>SQL</li>
+        <li>HTML / CSS</li>
+      </ul>
+    </div>
+    <div>
+      <div class="sg-title">Frameworks & Tools</div>
+      <ul class="skill-list">
+        <li>Node.js / Express</li>
+        <li>PostgreSQL</li>
+        <li>TensorFlow / PyTorch</li>
+        <li>OpenCV</li>
+        <li>Git / GitHub</li>
+      </ul>
+    </div>
+    <div>
+      <div class="sg-title">Domains</div>
+      <ul class="skill-list">
+        <li>Data Structures & Algorithms</li>
+        <li>Graph Theory</li>
+        <li>Computer Vision</li>
+        <li>Cybersecurity</li>
+        <li>System Design</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label fi">Background</div>
+  <h2 class="exp-heading fi">Experience &amp;<br><em>Education</em></h2>
+  <div class="timeline">
+
+    <div class="tl-item fi">
+      <div>
+        <div class="tl-date">2026</div>
+        <div class="tl-org">Accolade Fest</div>
+      </div>
+      <div>
+        <div class="tl-role">Technical Lead — A Coins Reward System</div>
+        <p class="tl-desc">
+          Designed and built a full digital reward and canteen redemption system for a multi-day college festival. Architected the complete stack solo — Node.js/Express backend, PostgreSQL database, five frontend pages, and deployment on Render. Implemented admin and volunteer access controls with real-time point tracking and redemption workflows.
+        </p>
+      </div>
+    </div>
+
+    <div class="tl-item fi">
+      <div>
+        <div class="tl-date">2024 – Present</div>
+        <div class="tl-org">Graphic Era Hill University</div>
+      </div>
+      <div>
+        <div class="tl-role">B.Tech — Computer Science & Engineering</div>
+        <p class="tl-desc">
+          Studying core CS fundamentals — algorithms, data structures, computer networks, operating systems, and machine learning. Active in technical and cultural clubs, balancing engineering rigour with creative pursuits.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-name">Lakshay &copy; 2026</span>
+  <div class="footer-links">
+    <a href="https://www.linkedin.com/in/lakshay---sharma/" target="_blank">LinkedIn</a>
+    <a href="https://github.com/Cl0nemebitch" target="_blank">GitHub</a>
+    <a href="mailto:sharmalakshay.015@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 90);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fi').forEach(el => io.observe(el));
+
+  const hint = document.getElementById('scroll-hint');
+  window.addEventListener('scroll', () => {
+    hint.style.opacity = window.scrollY > 80 ? '0' : '1';
+  }, { passive: true });
+</script>
+
+</body>
+</html>
